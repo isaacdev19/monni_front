@@ -1,0 +1,22 @@
+name: monni_recurring
+description: "Recurring items and mark-as-paid for the month."
+publish_to: none
+version: 0.0.1
+resolution: workspace
+
+environment:
+  sdk: ^3.13.7
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  core: ^0.0.1
+  design_system: ^0.0.1
+  infrastructure: ^0.0.1
+  monni_transactions: ^0.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0

@@ -1,0 +1,54 @@
+name: monni_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.13.7
+
+workspace:
+  - app
+  - shared/core
+  - shared/design_system
+  - shared/infrastructure
+  - shared/analytics
+  - features/monni_categories
+  - features/monni_transactions
+  - features/monni_budget
+  - features/monni_recurring
+  - features/monni_home
+  - features/monni_settings
+
+dev_dependencies:
+  melos: ^8.10.1
+
+melos:
+  scripts:
+    analyze:
+      description: Run the analyzer in every package.
+      exec: dart analyze .
+    format:
+      description: Format all Dart code in the workspace.
+      run: dart format .
+    test:
+      description: Run tests in every package that has a test folder.
+      steps:
+        - test_dart
+        - test_flutter
+    test_dart:
+      private: true
+      exec: dart test
+      packageFilters:
+        dirExists:
+          - test
+        flutter: false
+    test_flutter:
+      private: true
+      exec:
+        command: flutter test
+        concurrency: 1
+      packageFilters:
+        dirExists:
+          - test
+        flutter: true
+    gen:
+      description: Run build_runner in packages that depend on it.
+      run: dart run melos exec -c 1 --depends-on build_runner -- dart run build_runner build --delete-conflicting-outputs
