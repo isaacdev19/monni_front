@@ -86,19 +86,42 @@ Source of truth: Figma Design file "Monni — Finance App (MVP)", fileKey `OK2km
 - Amounts use tabular figures (`FontFeature.tabularFigures()`).
 - Minimum text size 11 px. Text contrast >= 4.5:1.
 
+### design_system structure (atomic design)
+```
+shared/design_system/lib/
+├── design_system.dart        public API (exports)
+└── src/
+    ├── foundations/          tokens (colors, typography, shadows, radii) and MonniTheme
+    ├── atoms/                smallest pieces
+    ├── molecules/            atoms combined
+    └── organisms/            larger sections made of molecules and atoms
+```
+- Planned mapping from the Figma components (proposal, adjust when building):
+  - atoms: icon, primary button, filter chip, switch, category tile, amount text, progress bar, badge
+  - molecules: movement row, section title, category option, budget row, bill card, fixed card
+  - organisms: bottom nav, summary card, bottom sheet shell
+- Templates and pages are NOT part of design_system: screens live in `features/*/ui` and the shell in `app`.
+- Components are presentational: stateless, plain parameters (String, bool, enum, callbacks). No repositories, no Riverpod providers, no business rules, no domain or Money types; the caller formats the text.
+- Allowed dependencies: atoms use foundations; molecules use atoms and foundations; organisms use molecules, atoms and foundations. Never upward.
+- Widgets use the `Monni` prefix (`MonniButton`), one file per widget (`monni_button.dart`). Figma variants become enum parameters.
+- Build components just in time, when the current sprint needs them. Do not build the whole catalog upfront.
+- Every component has a widget test and an entry in the catalog app (`design_system/example`) that shows each of its states.
+
 ### Color tokens
 - text: primary #22251f · secondary #60645c · tertiary #6f736c · placeholder #b4b6af · strong-muted #61655e · sage #606e62 · inverse #ffffff · icon #44483f
 - bg: app #f8f7f2 · surface #ffffff · nav #fffffd · sunken #edeee8 · field-icon #f0f1ec · track #e6e8e2 · control-off #d7d9d3 · badge #dedfd9 · scrim #1b1f19
 - border: divider #e8e9e2 · card #ebebe5 · control #e2e3dd · selected #87a291
 - brand: green #2e6b4d · green-card #2e674b · green-soft #dcebdd · green-pale #e2eee3 · coral #dd725f · coral-soft #f8ded8
-- status: ok #68a178 · warn #d3ae4f · over #dc705e · danger-text #c75949 · expense #c96756 · income #5e9170
+- status: ok #68a178 · warn #d3ae4f · over #dc705e · danger-text #aa4334 · expense #c1513e · income #527e62
+  (Nov 17, 2026 contrast fix: danger-text, expense and income were darkened to reach 4.5:1. `over`, `ok` and `warn` are for fills/bars/icons only, never for small text.
+  The "Pagado" label uses brand/green on tone/green-bg.)
 - chart: on-green #b9d7bd
 - category tones (icon / bg): lilac #76619b/#eee9f6 · blue #4f7390/#e3eef4 · yellow #94752d/#f5eccd · green #52755e/#e3eee4 · mint #377059/#dceee4 · coral #b86252/#f7e2dc
 
 ### Shadows (x offset 0, no spread; y / blur, color, opacity)
 card 6/17 #2b3228 3.5% · raised 13/28 #2e674b 19% · button 10/22 #2e6b4d 20% · selected 5/14 #2e6b4d 8% · segment 3/12 #2b3027 8% · sheet 24/60 #191f17 24%
 
-Full text styles table (38 styles) lives in the Figma file and the project context document. Read it from Figma when building `design_system`.
+Full token reference (46 colors, 38 text styles, 6 shadows, radii, node ids): `docs/design-tokens.md`. Read it before building `design_system`; use Figma only for per-screen visuals.
 
 ## Git workflow
 - `main` is protected. One branch per task (`feature/add-transaction`). PR with green CI.
@@ -109,7 +132,6 @@ Full text styles table (38 styles) lives in the Figma file and the project conte
 - Plan first (plan mode) for any task that touches more than one package. Wait for approval.
 - Small tasks, one Notion card each. Do not build screens that are not in the current sprint.
 - Any money, budget or date logic needs unit tests in the same change.
-- After edits run: `melos run format_fix`, `melos run analyze`, `melos run test`. Fix before reporting done.
-  `melos run format` only checks formatting (used by CI); `format_fix` writes the changes.
+- After edits run: `melos run format`, `melos run analyze`, `melos run test`. Fix before reporting done.
 - Respect the dependency rules above. If a task needs to break one, stop and ask.
 - Do not rename packages, the repo or the product name without asking.
