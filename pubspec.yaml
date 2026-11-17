@@ -25,7 +25,10 @@ melos:
   scripts:
     analyze:
       description: Analyze every package. Infos fail the run.
-      exec: dart analyze --fatal-infos .
+      # --suppress-analytics turns off SDK telemetry for this run only (it
+      # does not change the global setting). Telemetry can crash the analyzer
+      # when it cannot reach google-analytics.com.
+      exec: dart --suppress-analytics analyze --fatal-infos .
     format:
       description: Check formatting without writing. Fails if any file would change.
       run: dart format --output=none --set-exit-if-changed .
