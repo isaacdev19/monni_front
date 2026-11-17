@@ -8,6 +8,7 @@ workspace:
   - app
   - shared/core
   - shared/design_system
+  - shared/design_system/example
   - shared/infrastructure
   - shared/analytics
   - features/monni_categories

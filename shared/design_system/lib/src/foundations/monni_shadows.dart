@@ -5,6 +5,9 @@ import 'package:flutter/painting.dart';
 /// All are outer shadows with x offset 0 and no spread. Figma blur maps
 /// directly to [BoxShadow.blurRadius] (both follow the CSS convention).
 /// Colors use [Color.fromRGBO] so the opacity stays exact.
+///
+/// Raw values, not exported. Widgets read shadows through
+/// `MonniShadowTheme.of(context)`.
 abstract final class MonniShadows {
   /// White cards.
   static const List<BoxShadow> card = [
