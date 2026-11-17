@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A new push to the same branch or PR cancels the run still in progress.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze-and-test:
+    name: Analyze and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      # Actions are pinned to a commit SHA; the comment shows the release.
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          channel: stable
+          # Same version used locally. Dart 3.13.7, required by sdk: ^3.13.7.
+          flutter-version: 3.47.9
+          # Caches the Flutter SDK and ~/.pub-cache (key includes pubspec.lock).
+          cache: true
+          pub-cache: true
+
+      - name: Disable Flutter and Dart telemetry
+        run: |
+          flutter --disable-analytics
+          dart --disable-analytics
+
+      - name: Resolve workspace
+        # Fails if pubspec.lock is out of date instead of silently changing it.
+        run: dart pub get --enforce-lockfile
+
+      - name: Analyze
+        run: dart run melos run analyze
+
+      - name: Test
+        run: dart run melos run test
