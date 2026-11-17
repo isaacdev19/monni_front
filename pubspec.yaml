@@ -18,15 +18,19 @@ workspace:
   - features/monni_settings
 
 dev_dependencies:
+  flutter_lints: ^6.0.0
   melos: ^8.10.1
 
 melos:
   scripts:
     analyze:
-      description: Run the analyzer in every package.
-      exec: dart analyze .
+      description: Analyze every package. Infos fail the run.
+      exec: dart analyze --fatal-infos .
     format:
-      description: Format all Dart code in the workspace.
+      description: Check formatting without writing. Fails if any file would change.
+      run: dart format --output=none --set-exit-if-changed .
+    format_fix:
+      description: Format all Dart code in place.
       run: dart format .
     test:
       description: Run tests in every package that has a test folder.
