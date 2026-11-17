@@ -102,6 +102,7 @@ Full text styles table (38 styles) lives in the Figma file and the project conte
 - Plan first (plan mode) for any task that touches more than one package. Wait for approval.
 - Small tasks, one Notion card each. Do not build screens that are not in the current sprint.
 - Any money, budget or date logic needs unit tests in the same change.
-- After edits run: `melos run format`, `melos run analyze`, `melos run test`. Fix before reporting done.
+- After edits run: `melos run format_fix`, `melos run analyze`, `melos run test`. Fix before reporting done.
+  `melos run format` only checks formatting (used by CI); `format_fix` writes the changes.
 - Respect the dependency rules above. If a task needs to break one, stop and ask.
 - Do not rename packages, the repo or the product name without asking.
