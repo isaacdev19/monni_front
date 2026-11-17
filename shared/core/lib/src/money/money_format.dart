@@ -11,7 +11,7 @@ final class MoneyFormat {
   const MoneyFormat();
 
   static const String _symbol = r'$';
-  static const String _nonBreakingSpace = ' ';
+  static const String _nonBreakingSpace = '\u00A0';
   static const int _maxDigits = 15;
 
   static final NumberFormat _numberFormat = NumberFormat.currency(

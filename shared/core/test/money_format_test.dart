@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:test/test.dart';
 
 /// Non-breaking space between the symbol and the number.
-const nbsp = ' ';
+const nbsp = '\u00A0';
 
 void main() {
   const format = MoneyFormat();
