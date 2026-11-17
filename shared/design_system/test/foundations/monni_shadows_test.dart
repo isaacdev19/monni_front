@@ -1,4 +1,4 @@
-import 'package:design_system/design_system.dart';
+import 'package:design_system/src/foundations/monni_shadows.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 
