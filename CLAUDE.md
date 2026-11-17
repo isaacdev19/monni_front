@@ -66,6 +66,13 @@ Use cases only where there is real logic (e.g. mark recurring item as paid, mont
 - Month without budget -> copy previous month's budget.
 - Categories with transactions are archived, never deleted.
 
+## MVP product decisions (Nov 17, 2026)
+- COP is the only currency. `Money` is an integer number of pesos. No currency field in the MVP.
+- No wallets or accounts in the MVP. Later they arrive as an `accountId` field; do not add it now.
+- Credit cards: the user registers the purchase when it happens. Paying the card bill is NOT recorded as an expense (it would double count).
+  The MVP has no "debt payment" concept and no special category for it. Do not add one.
+  The user is told in help / first-use copy not to register the card bill payment.
+
 ## Monetization (freemium)
 Whole MVP is free. Code asks "is premium?" ONLY through `EntitlementService` (interface in `shared/core`).
 In the MVP the implementation always answers yes. No in-app payments in sprints 1-6.
