@@ -11,6 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg: ^2.4.0
 
 dev_dependencies:
   flutter_test:
@@ -22,6 +23,7 @@ flutter:
   assets:
     - assets/fonts/inter/OFL.txt
     - assets/fonts/space_grotesk/OFL.txt
+    - assets/icons/
   fonts:
     - family: Inter
       fonts:
